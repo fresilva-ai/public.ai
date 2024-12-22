@@ -82,5 +82,3 @@ cap = cv2.VideoCapture("ruta_al_video.mp4")
 
 ¡Gracias por usar este proyecto! Si tienes dudas o sugerencias, no dudes en abrir un **issue** o contactarme.
 ```
-
-Este `README.md` está diseñado para guiar a los usuarios paso a paso en la instalación y ejecución del script. ¡Solo necesitas personalizarlo con tus detalles!
