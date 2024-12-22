@@ -1,7 +1,8 @@
 ```markdown
 # 📷 Script de Reconocimiento de Objetos con Python
 
-Este proyecto implementa un sistema de reconocimiento de objetos utilizando **Python** y **YOLOv4**. Permite identificar y clasificar objetos en tiempo real usando la cámara de tu computadora o un archivo de video.
+Este proyecto implementa un sistema de reconocimiento de objetos utilizando **Python** y **YOLOv4**.
+Permite identificar y clasificar objetos en tiempo real usando la cámara de tu computadora o un archivo de video.
 
 ---
 
