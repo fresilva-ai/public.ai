@@ -1,5 +1,3 @@
-# public.ai
-
 # 🚀 Python AI Projects Repository
 
 Bienvenido/a a mi repositorio de **Inteligencia Artificial** 🎉. Aquí encontrarás una colección de proyectos en Python diseñados para explorar, aprender y aplicar técnicas de IA en diferentes áreas.
