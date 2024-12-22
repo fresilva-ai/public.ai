@@ -1,5 +1,4 @@
 # public.ai
-Canal publico de IA
 
 # 🚀 Python AI Projects Repository
 
