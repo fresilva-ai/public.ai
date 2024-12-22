@@ -20,7 +20,7 @@ Antes de comenzar, asegúrate de cumplir con los siguientes requisitos:
 
 ### 1. **Descargar el Repositorio**
 Clona este repositorio en tu máquina local:
-```bash
+bash
 git clone https://github.com/tu-usuario/tu-repositorio.git
 cd tu-repositorio
 ```
