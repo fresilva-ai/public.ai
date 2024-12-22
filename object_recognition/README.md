@@ -81,4 +81,3 @@ cap = cv2.VideoCapture("ruta_al_video.mp4")
 ---
 
 ¡Gracias por usar este proyecto! Si tienes dudas o sugerencias, no dudes en abrir un **issue** o contactarme.
-```
