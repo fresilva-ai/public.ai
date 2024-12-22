@@ -1,5 +1,3 @@
-Aquí tienes un archivo `README.md` que incluye un paso a paso detallado para instalar y ejecutar el script de reconocimiento de objetos en Python:
-
 ```markdown
 # 📷 Script de Reconocimiento de Objetos con Python
 
