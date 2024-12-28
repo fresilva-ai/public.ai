@@ -60,5 +60,3 @@ Mejoras Futuras
 Licencia
 
 Este proyecto es de código abierto y está disponible bajo la Licencia MIT. Siéntete libre de usarlo y modificarlo según sea necesario.
-
-Este archivo `README.md` es ideal para documentar tu proyecto en español y compartirlo en plataformas como GitHub. ¡Avísame si necesitas ajustes adicionales!
