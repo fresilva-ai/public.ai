@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp RRHH - Verónica | MetroCapital AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #00a884 0%, #00a884 127px, #d9dbd5 127px, #d9dbd5 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 420px;
+            height: 90vh;
+            max-height: 800px;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+
+        .back-arrow {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chat-info {
+            flex: 1;
+        }
+
+        .chat-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .chat-status {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        .chat-container {
+            flex: 1;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATElEQVQYV2NkIBIwEqmOAa+CP39+M/z//5+BkZGRgYGBgQGnQpCCf3//Mvz7958BphoXBimCKQapwqkQpghkKkgVTgUwRTBVOBXiVAcAW5oYDqAJ5ZAAAAAASUVORK5CYII=');
+            background-size: 400px;
+            overflow-y: auto;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 8px 12px;
+            border-radius: 7px;
+            position: relative;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-received {
+            background: #fff;
+            align-self: flex-start;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .message-sent {
+            background: #dcf8c6;
+            align-self: flex-end;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: #667781;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply-btn {
+            background: #075e54;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .quick-reply-btn:hover {
+            background: #128c7e;
+            transform: scale(1.05);
+        }
+
+        .input-container {
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .emoji-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #54656f;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .send-btn {
+            background: #075e54;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #128c7e;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            padding: 10px 15px;
+            background: #fff;
+            border-radius: 7px;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+
+        .typing-indicator.show {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #667781;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            30% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .welcome-menu {
+            background: #e8f5ff;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 10px;
+        }
+
+        .menu-title {
+            font-weight: bold;
+            color: #075e54;
+            margin-bottom: 8px;
+        }
+
+        .menu-option {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            cursor: pointer;
+            color: #303030;
+        }
+
+        .menu-option:hover {
+            color: #075e54;
+        }
+
+        .menu-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        @media (max-width: 480px) {
+            .phone-container {
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="chat-header">
+            <span class="back-arrow">←</span>
+            <div class="profile-pic">VA</div>
+            <div class="chat-info">
+                <div class="chat-name">Verónica - RRHH MetroCapital AI</div>
+                <div class="chat-status">En línea</div>
+            </div>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <!-- Los mensajes aparecerán aquí -->
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <button class="emoji-btn">😊</button>
+            <input 
+                type="text" 
+                class="message-input" 
+                id="messageInput" 
+                placeholder="Escribe un mensaje..."
+            >
+            <button class="send-btn" id="sendBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M2,21L23,12L2,3V10L17,12L2,14V21Z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sistema de IA conversacional
+        const aiSystem = {
+            contextMemory: [],
+            userProfile: {
+                name: null,
+                department: null,
+                previousQueries: []
+            },
+            
+            // Analizador de sentimiento e intención
+            analyzeIntent: function(message) {
+                const lower = message.toLowerCase();
+                
+                // Detectar saludos
+                if (/^(hola|hi|hey|buenas|buenos días|buenas tardes|qué tal)/i.test(lower)) {
+                    return 'greeting';
+                }
+                
+                // Detectar despedidas
+                if (/\b(adiós|adios|chau|bye|hasta luego|gracias|muchas gracias)\b/i.test(lower)) {
+                    return 'farewell';
+                }
+                
+                // Detectar frustración o problemas
+                if (/\b(problema|ayuda|urgente|no funciona|error|mal|molesto|frustrado)\b/i.test(lower)) {
+                    return 'issue';
+                }
+                
+                // Detectar preguntas complejas
+                if (/\b(cómo|como|cuándo|cuando|por qué|porque|explicar|entender|diferencia)\b/i.test(lower)) {
+                    return 'complex_question';
+                }
+                
+                // Detectar solicitudes de comparación
+                if (/\b(mejor|peor|versus|comparar|diferencia entre|o |elegir)\b/i.test(lower)) {
+                    return 'comparison';
+                }
+                
+                return 'general';
+            },
+            
+            // Generar respuestas contextuales
+            generateContextualResponse: function(message, intent) {
+                const responses = {
+                    greeting: [
+                        "¡Hola! 😊 Soy Verónica de RRHH. ¿En qué puedo ayudarte hoy con los beneficios de MetroCapital AI?",
+                        "¡Buenos días! Soy Verónica, tu asistente de RRHH. Estoy aquí para resolver todas tus dudas. ¿Qué necesitas saber?",
+                        "¡Hola! Qué gusto saludarte. Soy Verónica y estoy para ayudarte con cualquier tema de RRHH en MetroCapital AI. ¿En qué te puedo asistir?"
+                    ],
+                    farewell: [
+                        "¡Que tengas un excelente día! Recuerda que estoy disponible 24/7. ¡Hasta pronto! - Verónica 😊",
+                        "¡Hasta luego! Si necesitas algo más, no dudes en escribirme. Siempre estaré aquí para ayudarte. - Verónica",
+                        "¡Gracias por contactarme! Espero haber sido de ayuda. ¡Que tengas un gran día! - Verónica 🌟"
+                    ],
+                    issue: [
+                        "Entiendo tu preocupación. Soy Verónica y voy a asegurarme de que resolvamos esto juntos. ¿Puedes darme más detalles sobre el problema?",
+                        "Lamento que estés experimentando dificultades. Como tu asistente de RRHH, quiero ayudarte. Cuéntame más para poder asistirte mejor.",
+                        "Veo que necesitas ayuda urgente. Soy Verónica y estoy aquí para apoyarte. ¿Cuál es específicamente el problema que estás enfrentando?"
+                    ],
+                    complex_question: this.generateComplexAnswer(message),
+                    comparison: this.generateComparisonAnswer(message),
+                    general: this.generateGeneralAnswer(message)
+                };
+                
+                if (Array.isArray(responses[intent])) {
+                    return responses[intent][Math.floor(Math.random() * responses[intent].length)];
+                }
+                return responses[intent];
+            },
+            
+            // Respuestas para preguntas complejas
+            generateComplexAnswer: function(message) {
+                const lower = message.toLowerCase();
+                
+                if (lower.includes('cómo') && lower.includes('solicitar')) {
+                    return `📋 *Proceso de Solicitud:*
+
+Para solicitar cualquier beneficio, sigue estos pasos:
+
+1. **Ingresa al Portal RRHH** con tu RUT y contraseña
+2. **Selecciona "Mis Beneficios"** en el menú principal
+3. **Elige el beneficio** que deseas solicitar
+4. **Completa el formulario** con la información requerida
+5. **Adjunta documentos** si son necesarios
+6. **Envía la solicitud** y recibirás confirmación por email
+
+⏱️ Tiempo de respuesta: 2-5 días hábiles
+
+¿Hay algún beneficio específico que quieras solicitar?`;
+                }
+                
+                if (lower.includes('por qué') || lower.includes('porque')) {
+                    return `Esa es una excelente pregunta. Las políticas de beneficios de MetroCapital AI están diseñadas para:
+
+• **Atraer y retener talento:** Como empresa líder en IA, ofrecemos beneficios competitivos en el sector tecnológico
+• **Promover el bienestar integral:** Cubrimos salud física, mental y financiera de nuestros colaboradores
+• **Apoyar el desarrollo:** Invertimos en el crecimiento profesional continuo, especialmente en tecnologías de IA
+• **Balance vida-trabajo:** Facilitamos la flexibilidad y el tiempo personal para mantener equipos creativos y productivos
+• **Cultura de innovación:** Nuestros beneficios reflejan nuestros valores de innovación y cuidado del talento
+
+¿Te gustaría conocer más detalles sobre alguna política específica de MetroCapital AI?`;
+                }
+                
+                if (lower.includes('cuándo') || lower.includes('cuando')) {
+                    return `📅 *Tiempos y Plazos Importantes:*
+
+Los tiempos varían según el tipo de solicitud:
+
+• **Beneficios de salud:** Activación inmediata tras aprobación
+• **Reembolsos:** 5-10 días hábiles
+• **Vacaciones:** Solicitar con 15 días de anticipación
+• **Capacitaciones:** Aprobación en 3 días hábiles
+• **Bonos:** Se pagan junto con la liquidación mensual
+
+¿Sobre qué beneficio específico necesitas saber los tiempos?`;
+                }
+                
+                return this.generateGeneralAnswer(message);
+            },
+            
+            // Generar comparaciones
+            generateComparisonAnswer: function(message) {
+                const lower = message.toLowerCase();
+                
+                if (lower.includes('isapre') && lower.includes('fonasa')) {
+                    return `🏥 *Comparación Isapre vs Fonasa con beneficios MetroCapital AI:*
+
+**Con ISAPRE:**
+• Seguro complementario cubre 80% del copago
+• Libre elección de clínicas y médicos
+• Atención más rápida
+• Tope anual: UF 100
+
+**Con FONASA:**
+• Seguro complementario cubre 90% (por menor costo base)
+• Red de prestadores en convenio
+• Sin topes de edad
+• Tope anual: UF 120
+
+💡 *Recomendación de Verónica:* En MetroCapital AI, ambas opciones tienen excelente cobertura con nuestro seguro complementario. La elección depende de tus preferencias personales y situación familiar.`;
+                }
+                
+                if (lower.includes('presencial') && lower.includes('remoto')) {
+                    return `🏢🏠 *Modalidad Presencial vs Remota en MetroCapital AI:*
+
+**Trabajo Presencial:**
+• Colaboración directa con equipos de IA
+• Acceso a laboratorios y salas de innovación
+• Networking con expertos en tecnología
+• Alimentación en casino gourmet
+
+**Trabajo Remoto:**
+• Mayor flexibilidad para proyectos de IA
+• Ahorro en transporte
+• Bono internet $30.000
+• Bono alimentación $150.000
+• Setup ergonómico completo
+
+**Híbrido (recomendado por MetroCapital AI):**
+• 3 días oficina + 2 días casa
+• Ideal para roles en desarrollo de IA
+• Flexibilidad según sprints y proyectos
+
+Como empresa de tecnología e IA, valoramos mucho la flexibilidad. ¿Qué modalidad te interesa más?`;
+                }
+                
+                return "Puedo ayudarte a comparar diferentes opciones. ¿Qué específicamente te gustaría comparar?";
+            },
+            
+            // Respuestas generales con IA
+            generateGeneralAnswer: function(message) {
+                const lower = message.toLowerCase();
+                
+                // Respuestas sobre el equipo de RRHH
+                if (lower.includes('contacto') || lower.includes('hablar') || lower.includes('rrhh')) {
+                    return `📞 *Contacto Directo con RRHH - MetroCapital AI:*
+
+**Canales disponibles:**
+• 📧 Email: rrhh@metrocapital.ai
+• 📱 WhatsApp RRHH: +56 9 1234 5678
+• ☎️ Anexo: 2000
+• 🏢 Oficina: Piso 3, Torre A
+• 👤 Verónica (yo): Disponible 24/7 por este chat
+
+**Horario de atención presencial:**
+Lunes a Viernes: 9:00 - 18:00
+
+Para temas urgentes fuera de horario, escríbeme aquí o usa el WhatsApp y te responderemos a primera hora del siguiente día hábil.
+
+¿Prefieres que yo, Verónica, te ayude directamente con tu consulta?`;
+                }
+                
+                // Información sobre plazos y procesos
+                if (lower.includes('cuánto') && (lower.includes('demora') || lower.includes('tarda'))) {
+                    return `⏱️ Los tiempos de procesamiento dependen del tipo de solicitud. En general:
+
+• Consultas simples: Respuesta inmediata aquí
+• Solicitudes estándar: 2-3 días hábiles
+• Reembolsos: 5-10 días hábiles
+• Cambios de beneficios: 1 mes (para el siguiente período)
+
+¿Qué proceso específico necesitas realizar?`;
+                }
+                
+                // Elegibilidad y requisitos
+                if (lower.includes('requisito') || lower.includes('puedo') || lower.includes('elegible')) {
+                    return `✅ *Elegibilidad General para Beneficios:*
+
+**Colaboradores con contrato indefinido:**
+• Acceso completo desde el día 1
+• Todos los beneficios disponibles
+
+**Colaboradores a plazo fijo:**
+• Beneficios básicos inmediatos
+• Beneficios completos después de 6 meses
+
+**Practicantes:**
+• Alimentación y transporte
+• Acceso a capacitaciones
+
+¿Cuál es tu tipo de contrato para darte información más específica?`;
+                }
+                
+                // Respuesta por defecto mejorada
+                return `Entiendo tu consulta sobre "${message}". Aunque no tengo información específica pre-programada sobre esto, te sugiero:
+
+1. **Consultar el Manual de Beneficios** completo en el portal RRHH
+2. **Contactar directamente a RRHH** para una respuesta personalizada
+3. **Revisar las categorías principales** del menú
+
+También puedo ayudarte con temas como:
+• Beneficios de salud, alimentación y bienestar
+• Políticas de vacaciones y trabajo remoto
+• Convenios y descuentos
+• Procesos y requisitos
+
+¿Hay algo más específico en lo que pueda asistirte?`;
+            },
+            
+            // Memoria contextual
+            rememberContext: function(message, response) {
+                this.contextMemory.push({
+                    timestamp: new Date(),
+                    userMessage: message,
+                    botResponse: response
+                });
+                
+                // Mantener solo los últimos 10 intercambios
+                if (this.contextMemory.length > 10) {
+                    this.contextMemory.shift();
+                }
+            },
+            
+            // Detectar y recordar información del usuario
+            extractUserInfo: function(message) {
+                // Detectar nombre
+                const nameMatch = message.match(/soy\s+(\w+)|me llamo\s+(\w+)/i);
+                if (nameMatch) {
+                    this.userProfile.name = nameMatch[1] || nameMatch[2];
+                }
+                
+                // Detectar departamento
+                const deptMatch = message.match(/trabajo en\s+(\w+)|departamento de\s+(\w+)/i);
+                if (deptMatch) {
+                    this.userProfile.department = deptMatch[1] || deptMatch[2];
+                }
+            },
+            
+            // Personalizar respuestas basadas en contexto
+            personalizeResponse: function(response) {
+                if (this.userProfile.name) {
+                    response = response.replace(/¡Hola!/g, `¡Hola ${this.userProfile.name}!`);
+                    // Ocasionalmente agregar el nombre en las respuestas
+                    if (Math.random() > 0.6 && !response.includes(this.userProfile.name)) {
+                        response = response.replace('¿', `${this.userProfile.name}, ¿`);
+                    }
+                }
+                
+                if (this.contextMemory.length > 3) {
+                    // Si ya hemos tenido varias interacciones
+                    const randomPhrases = [
+                        "\n\n💡 Como hemos estado conversando, recuerda que también puedes...",
+                        "\n\n📌 Basándome en tus consultas anteriores, tal vez te interese...",
+                        "\n\n🔍 Si necesitas más detalles sobre lo que hemos hablado, no dudes en preguntarme.",
+                        "\n\n✨ Por cierto, según lo que me has consultado, podría serte útil saber que..."
+                    ];
+                    
+                    if (Math.random() > 0.7) {
+                        response += randomPhrases[Math.floor(Math.random() * randomPhrases.length)];
+                    }
+                }
+                
+                // Agregar firma de Verónica ocasionalmente en respuestas largas
+                if (response.length > 500 && Math.random() > 0.5) {
+                    response += "\n\n- Verónica, RRHH MetroCapital AI 💜";
+                }
+                
+                return response;
+            }
+        };
+
+        // Base de conocimiento del bot
+        const knowledgeBase = {
+            beneficios: {
+                salud: {
+                    keywords: ['seguro', 'salud', 'médico', 'medico', 'isapre', 'fonasa', 'dental', 'oftalmológico'],
+                    response: `🏥 *Beneficios de Salud:*
+
+• *Seguro Complementario:* Cobertura del 80% en gastos médicos ambulatorios y hospitalarios
+• *Seguro Dental:* Plan completo con copago desde $5.000
+• *Seguro de Vida:* 24 sueldos para beneficiarios
+• *Telemedicina:* Consultas online gratuitas 24/7
+• *Convenio Ópticas:* 40% descuento en lentes y marcos
+
+📋 *Cómo usar:* Ingresa a la plataforma de beneficios con tu RUT`,
+                    quickReplies: ['Ver convenios médicos', 'Reembolsos', 'Volver al menú']
+                },
+                alimentacion: {
+                    keywords: ['alimentación', 'alimentacion', 'almuerzo', 'comida', 'sodexo', 'ticket', 'casino'],
+                    response: `🍽️ *Beneficios de Alimentación:*
+
+• *Ticket Restaurant:* $8.000 diarios (días hábiles)
+• *Casino empresa:* Subvencionado al 70%
+• *Colación remota:* $150.000 mensuales para teletrabajo
+• *Snacks saludables:* Disponibles en todas las oficinas
+
+💳 *Tarjeta Sodexo:* Se carga automáticamente el día 25 de cada mes`,
+                    quickReplies: ['Saldo Sodexo', 'Convenios restaurantes', 'Menú principal']
+                },
+                vacaciones: {
+                    keywords: ['vacaciones', 'descanso', 'feriado', 'días libres', 'dias libres', 'permiso'],
+                    response: `🏖️ *Política de Vacaciones:*
+
+• *Días base:* 15 días hábiles anuales
+• *Días progresivos:* +1 día por cada 3 años de antigüedad
+• *Días administrativos:* 5 días al año
+• *Cumpleaños:* Medio día libre
+• *Vacaciones adelantadas:* Hasta 5 días
+
+📅 *Solicitudes:* A través del portal RRHH con 15 días de anticipación`,
+                    quickReplies: ['Solicitar vacaciones', 'Ver saldo de días', 'Calendario feriados']
+                },
+                formacion: {
+                    keywords: ['capacitación', 'capacitacion', 'curso', 'formación', 'formacion', 'estudio', 'certificación', 'beca'],
+                    response: `📚 *Desarrollo Profesional:*
+
+• *Presupuesto anual:* USD $1.500 por colaborador
+• *Plataformas online:* Acceso a Coursera, Udemy Business, LinkedIn Learning
+• *Inglés:* Clases grupales e individuales
+• *Certificaciones:* 100% financiadas (previa aprobación)
+• *Postgrados:* Hasta 50% de financiamiento
+
+🎓 *Día de capacitación:* 8 horas mensuales en horario laboral`,
+                    quickReplies: ['Ver cursos disponibles', 'Solicitar capacitación', 'Menú principal']
+                },
+                bienestar: {
+                    keywords: ['gimnasio', 'deporte', 'bienestar', 'wellness', 'mental', 'psicólogo', 'psicologo'],
+                    response: `💪 *Programa de Bienestar:*
+
+• *Gimnasio:* Convenio SmartFit - Plan Black sin costo
+• *Apoyo psicológico:* 12 sesiones anuales gratuitas
+• *Pausas activas:* Sesiones diarias de 15 minutos
+• *Masajes:* 2 sesiones mensuales en oficina
+• *Clases online:* Yoga, mindfulness, pilates
+
+🧘 *App Bienestar:* Descarga "TechCorp Wellness" para agendar`,
+                    quickReplies: ['Agendar masaje', 'Horarios gimnasio', 'Contactar psicólogo']
+                },
+                familia: {
+                    keywords: ['hijo', 'hijos', 'familia', 'maternal', 'paternal', 'guardería', 'guarderia', 'nacimiento'],
+                    response: `👨‍👩‍👧‍👦 *Beneficios Familiares:*
+
+• *Sala cuna:* $200.000 mensuales hasta los 2 años
+• *Jardín infantil:* $150.000 hasta los 5 años  
+• *Bono escolaridad:* $300.000 en marzo (por hijo)
+• *Bono nacimiento:* $500.000
+• *Permiso postnatal extendido:* +2 semanas con goce de sueldo
+• *Seguro escolar:* Accidentes 24/7
+
+🎒 *Útiles escolares:* Kit completo para cada hijo en edad escolar`,
+                    quickReplies: ['Requisitos bono escolar', 'Convenios colegios', 'Volver']
+                },
+                trabajo_remoto: {
+                    keywords: ['remoto', 'teletrabajo', 'casa', 'home office', 'híbrido', 'hibrido', 'flexibilidad'],
+                    response: `🏠 *Trabajo Remoto y Flexibilidad:*
+
+• *Modalidad híbrida:* 3 días oficina, 2 días remoto
+• *Full remoto:* Disponible para cargos específicos
+• *Horario flexible:* Entrada entre 8:00 y 10:00 AM
+• *Viernes corto:* Salida a las 14:00
+• *Internet hogar:* Bono de $30.000 mensuales
+• *Setup ergonómico:* $400.000 únicos para equipamiento
+
+💻 *Equipos:* Notebook, monitor, teclado y mouse corporativos`,
+                    quickReplies: ['Solicitar día remoto', 'Bono internet', 'Equipamiento']
+                }
+            },
+            convenios: {
+                keywords: ['convenio', 'descuento', 'alianza', 'promoción', 'promocion'],
+                response: `🤝 *Principales Convenios:*
+
+🏪 *Retail:*
+• Falabella: 15% dcto. + 6 cuotas sin interés
+• Paris: 20% dcto. en vestuario
+• Ripley: 15% dcto. general
+
+🚗 *Automotriz:*
+• Derco: Precios preferenciales
+• Europcar: 35% arriendo autos
+
+🏫 *Educación:*
+• Universidades: Hasta 25% dcto
+• Institutos idiomas: 30% dcto
+
+¿Qué convenio te interesa conocer en detalle?`,
+                quickReplies: ['Lista completa', 'Cómo acceder', 'Menú principal']
+            },
+            preguntas_frecuentes: {
+                liquidacion: {
+                    keywords: ['liquidación', 'liquidacion', 'sueldo', 'pago', 'remuneración', 'remuneracion'],
+                    response: `💰 *Sobre tu Liquidación:*
+
+• *Fecha de pago:* Último día hábil del mes
+• *Modalidad:* Transferencia bancaria
+• *Liquidación digital:* Disponible el día 28 en el portal
+• *Anticipo:* Día 15 (hasta 40% del sueldo líquido)
+
+📧 Consultas: liquidaciones@techcorp.com`,
+                    quickReplies: ['Descargar liquidación', 'Solicitar anticipo', 'Volver']
+                },
+                licencias: {
+                    keywords: ['licencia', 'médica', 'medica', 'enfermo', 'reposo'],
+                    response: `🏥 *Proceso de Licencias Médicas:*
+
+1. Informar a jefatura directa (primer día)
+2. Subir licencia al portal RRHH (máx 48 hrs)
+3. RRHH tramita con Isapre/Fonasa
+4. Seguimiento en portal del colaborador
+
+⚠️ *Importante:* Licencias de 1-3 días se pagan al 100%`,
+                    quickReplies: ['Subir licencia', 'Estado licencia', 'Menú']
+                },
+                evaluacion: {
+                    keywords: ['evaluación', 'evaluacion', 'desempeño', 'desempeno', 'feedback', 'review'],
+                    response: `📊 *Proceso de Evaluación:*
+
+• *Frecuencia:* Semestral (junio y diciembre)
+• *Metodología:* 360° + autoevaluación
+• *Bonos:* Según resultado (0-30% del sueldo)
+• *Calibración:* Por área y nivel
+• *Feedback:* Reunión 1:1 obligatoria
+
+📈 Próxima evaluación: Diciembre 2024`,
+                    quickReplies: ['Mi última evaluación', 'Criterios', 'Volver']
+                }
+            }
+        };
+
+        // Variables globales
+        let chatContainer = document.getElementById('chatContainer');
+        let messageInput = document.getElementById('messageInput');
+        let sendBtn = document.getElementById('sendBtn');
+        let typingIndicator = document.getElementById('typingIndicator');
+
+        // Función para obtener la hora actual
+        function getCurrentTime() {
+            const now = new Date();
+            return now.getHours().toString().padStart(2, '0') + ':' + 
+                   now.getMinutes().toString().padStart(2, '0');
+        }
+
+        // Función para agregar mensaje al chat
+        function addMessage(text, type, quickReplies = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message message-${type}`;
+            
+            // Procesar formato de texto (negritas con *)
+            const formattedText = text.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
+            
+            messageDiv.innerHTML = `
+                ${formattedText}
+                <div class="message-time">${getCurrentTime()}</div>
+            `;
+            
+            chatContainer.appendChild(messageDiv);
+            
+            // Agregar respuestas rápidas si existen
+            if (quickReplies.length > 0 && type === 'received') {
+                const quickReplyDiv = document.createElement('div');
+                quickReplyDiv.className = 'quick-replies message message-received';
+                quickReplyDiv.style.maxWidth = '90%';
+                
+                quickReplies.forEach(reply => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quick-reply-btn';
+                    btn.textContent = reply;
+                    btn.onclick = () => handleQuickReply(reply);
+                    quickReplyDiv.appendChild(btn);
+                });
+                
+                chatContainer.appendChild(quickReplyDiv);
+            }
+            
+            // Scroll al final
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Función para manejar respuestas rápidas
+        function handleQuickReply(text) {
+            addMessage(text, 'sent');
+            setTimeout(() => processMessage(text), 500);
+        }
+
+        // Función para procesar mensajes del usuario
+        function processMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // Extraer información del usuario si la proporciona
+            aiSystem.extractUserInfo(message);
+            
+            // Mostrar indicador de escritura
+            typingIndicator.classList.add('show');
+            chatContainer.appendChild(typingIndicator);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Analizar la intención del mensaje
+            const intent = aiSystem.analyzeIntent(message);
+            
+            setTimeout(() => {
+                typingIndicator.classList.remove('show');
+                
+                let responded = false;
+                let response = '';
+                let quickReplies = [];
+                
+                // Primero, verificar si es una conversación general (saludos, despedidas, etc.)
+                if (intent === 'greeting' || intent === 'farewell') {
+                    response = aiSystem.generateContextualResponse(message, intent);
+                    if (intent === 'greeting') {
+                        quickReplies = ['Ver beneficios', 'Tengo una pregunta', 'Menú principal'];
+                    }
+                    responded = true;
+                }
+                
+                // Comandos especiales
+                if (lowerMessage.includes('menú') || lowerMessage.includes('menu') || 
+                    lowerMessage.includes('inicio') || lowerMessage.includes('volver')) {
+                    showMainMenu();
+                    return;
+                }
+                
+                // Si no es saludo/despedida, buscar en base de conocimiento
+                if (!responded) {
+                    // Buscar coincidencias exactas en la base de conocimiento
+                    for (let category in knowledgeBase) {
+                        if (category === 'beneficios') {
+                            for (let benefit in knowledgeBase.beneficios) {
+                                const benefitData = knowledgeBase.beneficios[benefit];
+                                for (let keyword of benefitData.keywords) {
+                                    if (lowerMessage.includes(keyword)) {
+                                        response = benefitData.response;
+                                        quickReplies = benefitData.quickReplies;
+                                        responded = true;
+                                        break;
+                                    }
+                                }
+                                if (responded) break;
+                            }
+                        } else if (category === 'convenios') {
+                            for (let keyword of knowledgeBase.convenios.keywords) {
+                                if (lowerMessage.includes(keyword)) {
+                                    response = knowledgeBase.convenios.response;
+                                    quickReplies = knowledgeBase.convenios.quickReplies;
+                                    responded = true;
+                                    break;
+                                }
+                            }
+                        } else if (category === 'preguntas_frecuentes') {
+                            for (let faq in knowledgeBase.preguntas_frecuentes) {
+                                const faqData = knowledgeBase.preguntas_frecuentes[faq];
+                                for (let keyword of faqData.keywords) {
+                                    if (lowerMessage.includes(keyword)) {
+                                        response = faqData.response;
+                                        quickReplies = faqData.quickReplies;
+                                        responded = true;
+                                        break;
+                                    }
+                                }
+                                if (responded) break;
+                            }
+                        }
+                        if (responded) break;
+                    }
+                }
+                
+                // Si no hay coincidencia exacta, usar IA para generar respuesta
+                if (!responded) {
+                    // Verificar si es una pregunta compleja o comparación
+                    if (intent === 'complex_question' || intent === 'comparison' || intent === 'issue') {
+                        response = aiSystem.generateContextualResponse(message, intent);
+                        quickReplies = ['Más información', 'Hablar con RRHH', 'Menú principal'];
+                    } else {
+                        // Intentar generar una respuesta general con IA
+                        response = aiSystem.generateGeneralAnswer(message);
+                        quickReplies = ['Ver beneficios', 'Contactar RRHH', 'Menú principal'];
+                    }
+                }
+                
+                // Personalizar la respuesta basándose en el contexto
+                response = aiSystem.personalizeResponse(response);
+                
+                // Guardar en memoria contextual
+                aiSystem.rememberContext(message, response);
+                
+                // Agregar análisis de seguimiento si hay contexto previo
+                if (aiSystem.contextMemory.length > 2 && Math.random() > 0.6) {
+                    setTimeout(() => {
+                        const followUpMessages = [
+                            "¿Hay algo más específico sobre este tema que quieras saber?",
+                            "¿Te gustaría que profundice en algún punto?",
+                            "¿Necesitas información adicional?",
+                            "¿Esto responde tu pregunta o necesitas más detalles?"
+                        ];
+                        addMessage(followUpMessages[Math.floor(Math.random() * followUpMessages.length)], 'received', 
+                            ['Sí, más detalles', 'No, está claro', 'Otra pregunta']);
+                    }, 2000);
+                }
+                
+                // Mostrar la respuesta
+                addMessage(response, 'received', quickReplies);
+                
+                // Agregar sugerencias proactivas ocasionalmente
+                if (Math.random() > 0.8 && aiSystem.userProfile.previousQueries.length < 5) {
+                    setTimeout(() => {
+                        const suggestions = [
+                            "💡 *Tip de Verónica:* ¿Sabías que en MetroCapital AI puedes acumular días de vacaciones no utilizados hasta por 2 períodos?",
+                            "📢 *Recordatorio:* El período de evaluación de desempeño comienza el próximo mes. ¡Prepárate para destacar!",
+                            "🎯 *¿Lo sabías?* Puedes usar tu presupuesto de capacitación para certificaciones en IA y Machine Learning.",
+                            "✨ *Novedad en MetroCapital AI:* Acabamos de agregar convenios con nuevos restaurantes tech-friendly en tu zona.",
+                            "🚀 *Beneficio exclusivo:* Como parte de MetroCapital AI, tienes acceso gratuito a conferencias internacionales de IA.",
+                            "🧠 *Desarrollo profesional:* Tenemos un programa de mentoría con expertos en IA. ¿Te interesa participar?",
+                            "💜 *Cultura MetroCapital:* Nuestros viernes de innovación te permiten trabajar en proyectos personales de IA."
+                        ];
+                        addMessage(suggestions[Math.floor(Math.random() * suggestions.length)], 'received');
+                    }, 4000);
+                }
+                
+                // Guardar la consulta del usuario
+                if (!aiSystem.userProfile.previousQueries.includes(lowerMessage)) {
+                    aiSystem.userProfile.previousQueries.push(lowerMessage);
+                }
+            }, 1500);
+        }
+
+        // Función para mostrar el menú principal
+        function showMainMenu() {
+            const menuHTML = `
+                <div class="welcome-menu">
+                    <div class="menu-title">¿En qué te puedo ayudar hoy?</div>
+                    <div class="menu-option" onclick="handleQuickReply('Beneficios de salud')">
+                        <span class="menu-icon">🏥</span> Beneficios de Salud
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Beneficios de alimentación')">
+                        <span class="menu-icon">🍽️</span> Alimentación
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Vacaciones y permisos')">
+                        <span class="menu-icon">🏖️</span> Vacaciones
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Capacitación')">
+                        <span class="menu-icon">📚</span> Formación y Desarrollo
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Bienestar')">
+                        <span class="menu-icon">💪</span> Bienestar y Wellness
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Beneficios familiares')">
+                        <span class="menu-icon">👨‍👩‍👧‍👦</span> Familia
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Trabajo remoto')">
+                        <span class="menu-icon">🏠</span> Trabajo Remoto
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Ver convenios')">
+                        <span class="menu-icon">🤝</span> Convenios y Descuentos
+                    </div>
+                    <div class="menu-option" onclick="handleQuickReply('Preguntas frecuentes')">
+                        <span class="menu-icon">❓</span> Preguntas Frecuentes
+                    </div>
+                </div>
+            `;
+            
+            const menuDiv = document.createElement('div');
+            menuDiv.className = 'message message-received';
+            menuDiv.style.maxWidth = '90%';
+            menuDiv.innerHTML = menuHTML + `<div class="message-time">${getCurrentTime()}</div>`;
+            chatContainer.appendChild(menuDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Función para enviar mensaje
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(message, 'sent');
+                messageInput.value = '';
+                
+                // Procesar mensaje después de un pequeño delay
+                setTimeout(() => processMessage(message), 500);
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Mensaje inicial de bienvenida
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addMessage('¡Hola! 👋 Soy Verónica, tu asistente de RRHH en MetroCapital AI.', 'received');
+                setTimeout(() => {
+                    addMessage('Estoy aquí para ayudarte con todos los temas de beneficios, convenios y cualquier consulta que tengas sobre la empresa. ¡Pregúntame lo que necesites!', 'received');
+                    setTimeout(() => {
+                        addMessage('💬 Puedes escribirme de forma natural. Entiendo preguntas complejas y puedo mantener una conversación fluida contigo.', 'received');
+                        setTimeout(() => {
+                            showMainMenu();
+                        }, 1500);
+                    }, 1500);
+                }, 1500);
+            }, 500);
+        });
+
+        // Simular que el bot está "en línea"
+        setInterval(() => {
+            const status = document.querySelector('.chat-status');
+            if (status.textContent === 'En línea') {
+                status.textContent = 'Escribiendo...';
+                setTimeout(() => {
+                    status.textContent = 'En línea';
+                }, 2000);
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
